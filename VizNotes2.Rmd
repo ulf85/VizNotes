@@ -58,7 +58,13 @@ Stack overflow [https://stackoverflow.com/questions/tagged/r+plot](https://stack
 
 <img src="pic/stackoverflow.png" width="600px"><img src="pic/rgallery.png" width="300px">
 
-# Tip 1: Highlighting rows and columns in tables
+
+```{r settings}
+tip <- 1
+```
+
+
+# Tip `r tip`: Highlighting rows and columns in tables
 
 ---
 
@@ -126,7 +132,7 @@ datatable(iris) %>%
 
 
 
-# Tip 2: Formatting columns in tables
+# Tip `r tip <- tip+1;tip`: Formatting columns in tables
 
 ---
 
@@ -164,7 +170,7 @@ datatable(m) %>% formatCurrency(1:2, '\U20AC', digits = 0) %>% formatRound('E', 
 
 
 
-# Tip 3: Highlighting rows and columns in tables \#2
+# Tip `r tip <- tip+1;tip`: Highlighting rows and columns in tables \#2
 
 
 ## Package: formattable
@@ -361,7 +367,7 @@ export_formattable <- function(f, file, width = "100%", height = NULL,
 
 
 
-# Tip 4: Paper ready tables
+# Tip `r tip <- tip+1;tip`: Paper ready tables
 
 
 ## Paper ready tables
@@ -396,7 +402,7 @@ kable(dat, booktabs = TRUE, caption = "My table", align = "c") %>%
 
 
 
-# Tip 5: Label line ends in time series with ggplot2
+# Tip `r tip <- tip+1;tip`: Label line ends in time series with ggplot2
 
 
 ## Label line ends in time series with ggplot2
@@ -429,7 +435,7 @@ Function: `scale_y_continuous(sec.axis = sec_axis(...))`
 
 
 
-# Tip 6: Annotations in plots
+# Tip `r tip <- tip+1;tip`: Annotations in plots
 
 
 ## Annotations in plots
@@ -528,13 +534,25 @@ ggplot(data = buttersum, aes(x = spp, y = winglen)) +
 From [https://www.r-bloggers.com/adding-different-annotation-to-each-facet-in-ggplot/](https://www.r-bloggers.com/adding-different-annotation-to-each-facet-in-ggplot/)
 
 
-
-# Tip 7: Two plots in one with different y-axes
+# Tip `r tip <- tip+1;tip`: Plots within Plots
 
 ---
 
-Typical two time series etc. are plotted side by side, e.g. with `facet_grid()` or `multiplot()`. But sometimes we want to have them in one plot to see "correlations", save space, ...  
-Problem: The time series have different scales of y-axes.
+### Plots within Plots
+
+Sometimes we want to combine plots since they are related. Typically we plot them in one graph, e.g. with different line types, colors or in subplots using for example `facet_grid()` or `facet_warp()` from `ggplot2`.
+Another way is to plot them side by side, either in *R* or in *LaTeX*.  
+
+Once in a while, you might want to plot a second graph in the first plot.  
+
+The following plot and corresponding code I found here:  
+[https://www.r-bloggers.com/plots-within-plots-with-ggplot2-and-ggmap/](https://www.r-bloggers.com/plots-within-plots-with-ggplot2-and-ggmap/)
+
+The key function is `annotation_custom()` in the `ggplot2` package.
+
+---
+
+### Plots within Plots
 
 ```{r multiplot, echo=FALSE}
 # Multiple plot function
@@ -583,6 +601,67 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   }
 }
 ```
+
+```{r plotInPlot, message=FALSE, warning=FALSE, echo=FALSE}
+# generate fake data
+set.seed(42)
+n <- 1000
+x <- runif(n) * 3
+y <- x * sin(1/x) + rnorm(n) / 25
+df <- data.frame(x = x, y = y)
+
+# overall plot
+p1 <- ggplot() +
+    geom_point(data = df, aes(x, y), alpha = 0.3) +
+    geom_smooth(data = df, aes(x, y), se = FALSE) +
+theme_bw() +
+  ggtitle("Overall Plot")
+
+# zoomed in plot
+p2 <- ggplot() +
+    geom_point(data = df, aes(x, y), alpha = 0.3) +
+    geom_smooth(data = df, aes(x, y), se = FALSE) +
+    scale_x_continuous(limits = c(0, 0.5)) +
+    scale_y_continuous(limits = c(-0.3, 0.6)) +
+theme_bw() +
+  ggtitle("Zoomed in plot")
+
+multiplot(p1, p2, cols = 2)
+```
+
+
+---
+
+### Plots within Plots
+
+```{r plotInplot2, message=FALSE, warning=FALSE}
+# plot with inset
+p1 + annotation_custom(ggplotGrob(p2), xmin = 1, xmax = 3, 
+ymin = -0.3, ymax = 0.6)
+```
+
+---
+
+### Plots within Plots
+
+With rectancle and "zoom lines"...
+
+```{r plotInplot3, message=FALSE, warning=FALSE, echo=FALSE}
+p1 + geom_rect(mapping=aes(xmin=-0.1, xmax=0.5, ymin=-0.3, ymax=0.6), color="black", 
+               alpha=0.05, fill = "red") +
+  geom_line(data = data.frame(x=c(0.5, 1), y = c(-0.3, -0.2)), aes(x=x, y=y), linetype = 2) +
+  geom_line(data = data.frame(x=c(0.5, 1), y = c(0.6, 0.5)), aes(x=x, y=y), linetype = 2) +
+  annotation_custom(ggplotGrob(p2), xmin = 1, xmax = 3, 
+ymin = -0.3, ymax = 0.6)
+```
+
+
+# Tip `r tip <- tip+1;tip`: Two plots in one with different y-axes
+
+---
+
+Typical two time series etc. are plotted side by side, e.g. with `facet_grid()` or `multiplot()`. But sometimes we want to have them in one plot to see "correlations", save space, ...  
+Problem: The time series have different scales of y-axes.
 
 
 ```{r, echo=FALSE}
@@ -657,7 +736,14 @@ focus attention on the **overall pattern** formed by the values and comparisons 
 [Dual-Scaled Axes in Graphs Are They Ever the Best Solution?](http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf) by Stephen Few
 
 
-# Tip 8: Dashboards: Use gauges to visualize single numbers with levels
+
+## Thank you!
+
+Many thanks to all the bloggers, R specialists on stackoverview, R enthusiasts, etc.
+
+---
+
+# Tip `r tip <- tip+1;tip`: Dashboards: Use gauges to visualize single numbers with levels
 
 
 ---
