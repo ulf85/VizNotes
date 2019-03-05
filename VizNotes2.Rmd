@@ -304,8 +304,8 @@ icontext(c("star","star-empty"))
 
 ## Package: formattable
 
-The sparklines package can be used to create sparklines.  
-The way that we do this is by converting the spark line into text `(character(htmltools::as.tags)`, and then telling the formattable HTML widget that it also contains sparklines.
+The sparklines package can be used to create spark-lines.  
+The way that we do this is by converting the spark line into text `(character(htmltools::as.tags)`, and then telling the formattable HTML widget that it also contains spark lines.
 
 ```{r, eval=FALSE}
 prevalence$`2012` = apply(prevalence[, 2:7], 1, FUN = function(x)
@@ -644,7 +644,7 @@ ymin = -0.3, ymax = 0.6)
 
 ### Plots within Plots
 
-With rectancle and "zoom lines"...
+With rectangle and "zoom lines"...
 
 ```{r plotInplot3, message=FALSE, warning=FALSE, echo=FALSE}
 p1 + geom_rect(mapping=aes(xmin=-0.1, xmax=0.5, ymin=-0.3, ymax=0.6), color="black", 
@@ -720,8 +720,8 @@ Found here: [https://stackoverflow.com/questions/3099219/plot-with-2-y-axes-one-
 
 ### Two plots in one with different y-axes - critisism
 
-There is a wide discussion and critisism about plotting plots with separate y scales, saying that such plots are fundamentally flawed.  
-Here just a few of the most important critisim points:
+There is a wide discussion and criticism about plotting plots with separate y scales, saying that such plots are fundamentally flawed.  
+Here just a few of the most important criticism points:
 
 - A graph should only include a dual-scaled axis when needed to compare data sets that have **different units of measure**.
 - **Magnitude comparisons** between values with **different units of measure and scales** are not appropriate, 
