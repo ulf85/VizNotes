@@ -756,6 +756,70 @@ gauge(42, min = 0, max = 100, symbol = '%', gaugeSectors(
 ))
 ```
 
+
+# Tip `r tip <- tip+1;tip`: Alternative to gauges: bullet graphs
+
+
 ---
 
-Hier noch das Bsp aus der Shiny App
+### Alternative to gauges: bullet graphs
+
+A **bullet graph** is a variation of a bar graph developed by **Stephen Few**. Seemingly inspired by the traditional thermometer charts and progress bars found in many dashboards, the bullet graph serves as a replacement for dashboard gauges and meters. Bullet graphs were developed to overcome the fundamental issues of gauges and meters: they typically display too little information, require too much space, and are cluttered with useless and distracting decoration.
+
+(From Wikipedia [https://en.wikipedia.org/wiki/Bullet_graph](https://en.wikipedia.org/wiki/Bullet_graph))
+
+For **R** I found several implementations, e.g.
+
+with base R: [https://mtorchiano.wordpress.com/2014/12/20/bullet-graph-an-implementation-in-r/](https://mtorchiano.wordpress.com/2014/12/20/bullet-graph-an-implementation-in-r/) and the code available at
+[https://github.com/mtorchiano/MTkR/wiki/Bullet-Graph](https://github.com/mtorchiano/MTkR/wiki/Bullet-Graph)
+
+_d3Dashboard_: [https://www.santoshsrinivas.com/bullet-graphs-using-r/](https://www.santoshsrinivas.com/bullet-graphs-using-r/)
+
+with _ploty_: [https://moderndata.plot.ly/bullet-charts-in-r-using-plotly/](https://moderndata.plot.ly/bullet-charts-in-r-using-plotly/) and the code available at
+[https://rdrr.io/github/sipemu/d3Dashboard/man/bulletGraph.html](https://rdrr.io/github/sipemu/d3Dashboard/man/bulletGraph.html)
+
+with _ggplot2_: [https://github.com/hrbrmstr/Rbulletgraph](https://github.com/hrbrmstr/Rbulletgraph)
+
+with _rAmCharts_ using the 'AmCharts' Library (JavaScript) on CRAN 
+
+---
+
+### Alternative to gauges: bullet graphs
+
+One possible implementation taken from [https://github.com/mtorchiano/MTkR/wiki/Bullet-Graph](https://github.com/mtorchiano/MTkR/wiki/Bullet-Graph)
+
+```{r fig.height=1.5, echo=FALSE}
+source("bulletGraph.R")
+
+par(mfrow=c(2,1), mar=c(2,9,.1,1))
+
+bulletgraph(x=270,ref=260,limits=c(0,200,250,300),
+        name= "Revenue 2005 YTD",subname="(U.S. $ in thousands)")
+
+bulletgraph(x=270,ref=260,limits=c(0,200,250,300),
+        name= "Revenue 2005 YTD",subname="(U.S. $ in thousands)",
+        col="steelblue4",shades="firebrick")
+```
+
+or with d3dashboard:
+```{r echo=FALSE, fig.height=3, message=FALSE, warning=FALSE}
+require("d3Dashboard")
+
+ytd2005 <- list(
+  title=list("Revenue", "Profit", "Order Size", "Satisfaction"),
+  subtitle=list("US$, in thousands", "%", "US$, average", "out of 5"),
+  range=list(c(150, 225, 300),
+             c(20, 25, 30),
+             c(350, 500, 600),
+             c(3.5, 4.25, 5)),
+  measures=list(c(220, 270),
+                c(21, 23),
+                c(100, 320),
+                c(3.2, 4.7)),
+  markers=list(250, 26, 550, 4.2)
+)
+
+# Plot
+bulletGraph(ytd2005)
+```
+
