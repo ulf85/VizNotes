@@ -11,7 +11,7 @@ output:
 
 ## Background
 
-- working for Allianz Technology since 4 years as head of a small AI team
+- working for Allianz Technology since 5 years as head of a small AI team
 - working with **R**
 - building dashboards with **Shiny**
 - giving presentations to management and talks on conferences  
@@ -68,13 +68,15 @@ tip <- 1
 
 ---
 
-```{r}
+### Highlighting rows and columns in tables
+```{r message=FALSE, warning=FALSE}
 library(DT)
 DT::datatable(iris, options = list(pageLength = 5))
 ```
 
 ---
 
+### Highlighting rows and columns in tables
 ```{r}
 datatable(iris, options = list(pageLength = 5)) %>% 
   formatStyle('Sepal.Length', fontWeight = styleInterval(5, c('normal', 'bold')))
@@ -82,6 +84,7 @@ datatable(iris, options = list(pageLength = 5)) %>%
 
 ---
 
+### Highlighting rows and columns in tables
 ```{r, echo=FALSE}
 datatable(iris) %>% 
   formatStyle('Sepal.Length', fontWeight = styleInterval(5, c('normal', 'bold'))) %>%
@@ -94,6 +97,7 @@ datatable(iris) %>%
 
 ---
 
+### Highlighting rows and columns in tables
 ```{r, eval=FALSE}
 datatable(iris) %>% 
   formatStyle('Sepal.Length', fontWeight = styleInterval(5, c('normal', 'bold'))) %>%
@@ -106,6 +110,7 @@ datatable(iris) %>%
 
 ---
 
+### Highlighting rows and columns in tables
 ```{r, echo=FALSE}
 datatable(iris) %>% 
   formatStyle(
@@ -119,6 +124,7 @@ datatable(iris) %>%
 
 ---
 
+### Highlighting rows and columns in tables
 ```{r, eval=FALSE}
 datatable(iris) %>% 
   formatStyle(
@@ -136,6 +142,8 @@ datatable(iris) %>%
 
 ---
 
+### Formatting columns in tables
+
 ```{r}
 m = cbind(matrix(rnorm(60, 1e4, 1e5), 20), runif(20), rnorm(20, 100))
 m[, 1:3] = round(m[, 1:3])
@@ -146,12 +154,15 @@ head(m)
 
 ---
 
+### Formatting columns in tables
+
 ```{r, echo=FALSE}
 datatable(m) %>% formatCurrency(1:2, '\U20AC', digits = 0) %>% formatRound('E', 3) %>% formatPercentage('D', 2)
 ```
 
+---
 
-## Formatting of DT
+### Formatting of DT
 
 - use functions `formatStyle(), formatCurrency(), formatPercentage(), formatDate()`
 - bold, italic, font size, font color
@@ -172,12 +183,13 @@ datatable(m) %>% formatCurrency(1:2, '\U20AC', digits = 0) %>% formatRound('E', 
 
 # Tip `r tip <- tip+1;tip`: Highlighting rows and columns in tables \#2
 
+---
 
-## Package: formattable
+### Package: formattable
 
 Example:
 
-```{r, echo=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 suppressMessages(library(data.table))
 suppressMessages(library(plyr))
 suppressMessages(library(dplyr))
@@ -237,10 +249,10 @@ formattable(i1, align =c("l","c","c","c","c", "c", "c", "c", "r"), list(
 
 ```
 
+---
 
 
-
-## Package: formattable
+### Package: formattable
 
 Most important function: `formatter("span", style = ~ style(...))`  
 
@@ -257,8 +269,9 @@ Most important function: `formatter("span", style = ~ style(...))`
   
 [https://www.r-bloggers.com/make-beautiful-tables-with-the-formattable-package/amp/](https://www.r-bloggers.com/make-beautiful-tables-with-the-formattable-package/amp/)
 
+---
 
-## Package: formattable
+### Package: formattable
 
 Sometimes it is useful to use arrows to show statistical significance. While formattable is not super flexible in this regard, it can do a good job nonetheless. 
 
@@ -301,8 +314,9 @@ icontext("plus")
 icontext(c("star","star-empty"))
 ```
 
+---
 
-## Package: formattable
+### Package: formattable
 
 The sparklines package can be used to create spark-lines.  
 The way that we do this is by converting the spark line into text `(character(htmltools::as.tags)`, and then telling the formattable HTML widget that it also contains spark lines.
@@ -341,9 +355,9 @@ export_formattable(ft, "pic/ft_sparkline.png")
 
 Possible spark lines: bar, line, bullet, pie, tristate and discrete
 
+---
 
-
-## Package: formattable - Little trick for Rmarkdown
+### Package: formattable - Little trick for Rmarkdown
 
 ```{r, eval=FALSE}
 # Export a Formattable as PNG, PDF, or JPEG
@@ -369,8 +383,9 @@ export_formattable <- function(f, file, width = "100%", height = NULL,
 
 # Tip `r tip <- tip+1;tip`: Paper ready tables
 
+---
 
-## Paper ready tables
+### Paper ready tables
 
 <center>
 <img src="pic/booktab_table.png" width="800px">
@@ -381,8 +396,9 @@ export_formattable <- function(f, file, width = "100%", height = NULL,
 
 Similar: [http://cameron.bracken.bz/sweave-xtable-booktabs](http://cameron.bracken.bz/sweave-xtable-booktabs)
 
+---
 
-## Paper ready tables
+### Paper ready tables
 ```{r, eval=FALSE}
 library(kableExtra)
 options(knitr.table.format = "latex")
@@ -404,10 +420,59 @@ kable(dat, booktabs = TRUE, caption = "My table", align = "c") %>%
 
 # Tip `r tip <- tip+1;tip`: Label line ends in time series with ggplot2
 
+---
 
-## Label line ends in time series with ggplot2
+### Label line ends in time series with ggplot2
 
-```{r, echo=FALSE, fig.align = "center", plot.height = "250px"}
+```{r multiplot, echo=FALSE}
+# Multiple plot function
+#
+# ggplot objects can be passed in ..., or to plotlist (as a list of ggplot objects)
+# - cols:   Number of columns in layout
+# - layout: A matrix specifying the layout. If present, 'cols' is ignored.
+#
+# If the layout is something like matrix(c(1,2,3,3), nrow=2, byrow=TRUE),
+# then plot 1 will go in the upper left, 2 will go in the upper right, and
+# 3 will go all the way across the bottom.
+#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+
+  numPlots = length(plots)
+
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                    ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+
+ if (numPlots==1) {
+    print(plots[[1]])
+
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}
+```
+
+```{r echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, plot.height=4}
 library(ggplot2)
 d <- Orange %>% as_tibble()
 
@@ -437,8 +502,9 @@ Function: `scale_y_continuous(sec.axis = sec_axis(...))`
 
 # Tip `r tip <- tip+1;tip`: Annotations in plots
 
+---
 
-## Annotations in plots
+### Annotations in plots
 
 In general annotations in plots are no difficult task to do in R.  
 In **base** plots it is `text()` or `mtext()` and in **ggplot2** `geom_text()`.  
@@ -511,7 +577,6 @@ anno <- data.frame(x1 = c(1.75, 0.75), x2 = c(2.25, 1.25),
 
 ### Adding different annotation to each facet in ggplot
 
-
 And then add the annotation to the plot:
 ```{r, eval=FALSE}
 ggplot(data = buttersum, aes(x = spp, y = winglen)) +
@@ -534,6 +599,106 @@ ggplot(data = buttersum, aes(x = spp, y = winglen)) +
 From [https://www.r-bloggers.com/adding-different-annotation-to-each-facet-in-ggplot/](https://www.r-bloggers.com/adding-different-annotation-to-each-facet-in-ggplot/)
 
 
+# Tip `r tip <- tip+1;tip`: Removing weekends from line graphs
+
+---
+
+### Removing weekends from line graphs
+
+**Problem:** Given a data set with values for each day but not for the weekends (or public holiday).  
+Usually we plot such data with `Date` on the x-axes and some numerical value on the y-axes, but having some nasty "holes" in our bar or line plot.
+
+```{r echo=FALSE, fig.height=4}
+dat <- data.frame(date = seq.Date(from = as.Date("2019-12-01"), to = as.Date("2019-12-14"), by = "day"),
+                  value = rnorm(14, 10, 2),
+                  stringsAsFactors = FALSE)
+dat$value[weekdays(dat$date, abbreviate = TRUE) %in% c("So", "Sa", "Sat", "Sun")] <- 0
+
+p1 <- ggplot(data = dat, aes(x = date, y = value)) +
+  geom_col()
+p2 <- ggplot(data = dat, aes(x = date, y = value)) +
+  geom_line()
+multiplot(p1, p2, cols = 2)
+```
+
+---
+
+### Removing weekends from line graphs
+
+Removing the rows with no values:
+```{r echo=FALSE, fig.height=4}
+dat2 <- dat[dat$value > 0, ]
+p1 <- ggplot(data = dat2, aes(x = date, y = value)) +
+  geom_col()
+p2 <- ggplot(data = dat2, aes(x = date, y = value)) +
+  geom_line() +
+  geom_point()
+multiplot(p1, p2, cols = 2)
+```
+
+---
+
+### Removing weekends from line graphs
+
+Having for each x-tick a label: `scale_x_date(date_breaks = "1 days")`
+
+```{r echo=FALSE, fig.height=4}
+p1 <- ggplot(data = dat2, aes(x = date, y = value)) +
+  geom_col() +
+  scale_x_date(date_breaks = "1 days") +
+  theme(axis.text.x = element_text(angle = 90))
+p2 <- ggplot(data = dat2, aes(x = date, y = value)) +
+  geom_line() +
+  geom_point() +
+  scale_x_date(date_breaks = "1 days") +
+  theme(axis.text.x = element_text(angle = 90))
+multiplot(p1, p2, cols = 2)
+```
+
+---
+
+### Removing weekends from line graphs
+
+Casting the `Date` to `factor` or `character` does not work for all geoms.  
+And the order may change unexpectingly.
+
+```{r echo = FALSE, fig.height=4}
+dat2$date2 <- as.character(dat2$date, format = "%a %Y-%m-%d")
+p1 <- ggplot(data = dat2, aes(x = date2, y = value)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 90))
+p2 <- ggplot(data = dat2, aes(x = date2, y = value)) +
+  geom_line() +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90))
+multiplot(p1, p2, cols = 2)
+```
+
+---
+
+### Removing weekends from line graphs
+
+And this is the trick:
+
+* put weekday at the end of the string -> numbers in the front follow the correct order
+* `stat_summary(geom = "line", fun.y = sum)` with `group = 1` in the `aes()`
+
+```{r}
+dat2$date2 <- as.character(dat2$date, format = "%Y-%m-%d (%a)")
+p2 <- ggplot(data = dat2, aes(x = date2, y = value, group = 1)) +
+  stat_summary(geom = "line", fun.y = sum) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+```{r echo=FALSE, fig.height=3}
+p1 <- ggplot(data = dat2, aes(x = date2, y = value)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 90))
+multiplot(p1, p2, cols = 2)
+```
+
+
 # Tip `r tip <- tip+1;tip`: Plots within Plots
 
 ---
@@ -554,53 +719,6 @@ The key function is `annotation_custom()` in the `ggplot2` package.
 
 ### Plots within Plots
 
-```{r multiplot, echo=FALSE}
-# Multiple plot function
-#
-# ggplot objects can be passed in ..., or to plotlist (as a list of ggplot objects)
-# - cols:   Number of columns in layout
-# - layout: A matrix specifying the layout. If present, 'cols' is ignored.
-#
-# If the layout is something like matrix(c(1,2,3,3), nrow=2, byrow=TRUE),
-# then plot 1 will go in the upper left, 2 will go in the upper right, and
-# 3 will go all the way across the bottom.
-#
-multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-  library(grid)
-
-  # Make a list from the ... arguments and plotlist
-  plots <- c(list(...), plotlist)
-
-  numPlots = length(plots)
-
-  # If layout is NULL, then use 'cols' to determine layout
-  if (is.null(layout)) {
-    # Make the panel
-    # ncol: Number of columns of plots
-    # nrow: Number of rows needed, calculated from # of cols
-    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
-                    ncol = cols, nrow = ceiling(numPlots/cols))
-  }
-
- if (numPlots==1) {
-    print(plots[[1]])
-
-  } else {
-    # Set up the page
-    grid.newpage()
-    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
-
-    # Make each plot, in the correct location
-    for (i in 1:numPlots) {
-      # Get the i,j matrix positions of the regions that contain this subplot
-      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
-
-      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
-                                      layout.pos.col = matchidx$col))
-    }
-  }
-}
-```
 
 ```{r plotInPlot, message=FALSE, warning=FALSE, echo=FALSE}
 # generate fake data
@@ -659,6 +777,8 @@ ymin = -0.3, ymax = 0.6)
 # Tip `r tip <- tip+1;tip`: Two plots in one with different y-axes
 
 ---
+
+### Two plots in one with different y-axes
 
 Typical two time series etc. are plotted side by side, e.g. with `facet_grid()` or `multiplot()`. But sometimes we want to have them in one plot to see "correlations", save space, ...  
 Problem: The time series have different scales of y-axes.
